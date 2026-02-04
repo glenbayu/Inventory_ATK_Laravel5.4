@@ -14,6 +14,86 @@
 </div>
 @endif
 
+<div class="row" style="margin-bottom: 20px;">
+
+    <div class="col-md-3">
+        <div class="panel panel-industrial" style="border-top: 4px solid #222;">
+            <div class="panel-body" style="padding: 15px; display: flex; align-items: center;">
+                <div style="font-size: 40px; color: #222; margin-right: 15px;">
+                    <i class="glyphicon glyphicon-th-large"></i>
+                </div>
+                <div>
+                    <div style="font-size: 12px; font-weight: bold; color: #777; text-transform: uppercase;">Jenis Barang</div>
+                    <div style="font-size: 28px; font-weight: bold; font-family: 'Roboto Mono', monospace; color: #222;">
+                        {{ $totalItems }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="panel panel-industrial" style="border-top: 4px solid #f39c12;">
+            <div class="panel-body" style="padding: 15px; display: flex; align-items: center;">
+                <div style="font-size: 40px; color: #f39c12; margin-right: 15px;">
+                    <i class="glyphicon glyphicon-transfer"></i>
+                </div>
+                <div>
+                    <div style="font-size: 12px; font-weight: bold; color: #777; text-transform: uppercase;">Transaksi (Bln)</div>
+                    <div style="font-size: 28px; font-weight: bold; font-family: 'Roboto Mono', monospace; color: #222;">
+                        {{ $trxThisMonth }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="panel panel-industrial" style="border-top: 4px solid #c0392b;">
+            <div class="panel-body" style="padding: 15px; display: flex; align-items: center;">
+                <div style="font-size: 40px; color: #c0392b; margin-right: 15px;">
+                    <i class="glyphicon glyphicon-export"></i>
+                </div>
+                <div>
+                    <div style="font-size: 12px; font-weight: bold; color: #777; text-transform: uppercase;">Qty Keluar</div>
+                    <div style="font-size: 28px; font-weight: bold; font-family: 'Roboto Mono', monospace; color: #222;">
+                        {{ $qtyOutMonth }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="panel panel-industrial" style="border-top: 4px solid #27ae60;">
+            <div class="panel-body" style="padding: 15px; display: flex; align-items: center;">
+                <div style="font-size: 40px; color: #27ae60; margin-right: 15px;">
+                    <i class="glyphicon glyphicon-import"></i>
+                </div>
+                <div>
+                    <div style="font-size: 12px; font-weight: bold; color: #777; text-transform: uppercase;">Qty Masuk</div>
+                    <div style="font-size: 28px; font-weight: bold; font-family: 'Roboto Mono', monospace; color: #222;">
+                        {{ $qtyInMonth }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-industrial">
+            <div class="panel-heading-industrial" style="background: #222; border-bottom: 2px solid #777;">
+                <i class="glyphicon glyphicon-stats"></i> STATISTIK ARUS BARANG (TAHUN {{ date('Y') }})
+            </div>
+            <div class="panel-body" style="height: 300px;">
+                <canvas id="trendChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row">
 
     <div class="col-md-8">
@@ -232,7 +312,7 @@
 
     // Data dari Controller
     var labels = {!!json_encode($chartLabels) !!};
-    var data = {!!json_encode($chartValues) !!}; 
+    var data = {!!json_encode($chartValues) !!};
 
     var myChart = new Chart(ctx, {
         type: 'bar', // <--- KITA UBAH JADI 'bar' (BATANG)
@@ -291,6 +371,64 @@
                 titleFontFamily: "'Roboto Mono'",
                 bodyFontFamily: "'Roboto Mono'",
                 cornerRadius: 0 // Tooltip kotak tajam
+            }
+        }
+    });
+</script>
+<script>
+    var ctxTrend = document.getElementById("trendChart").getContext('2d');
+
+    var trendChart = new Chart(ctxTrend, {
+        type: 'line', // Tipe Grafik Garis
+        data: {
+            labels: ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Ags", "Sep", "Okt", "Nov", "Des"],
+            datasets: [{
+                    label: "Barang Masuk (Restock)",
+                    data: {!!json_encode($chartMonthIn) !!},
+                    borderColor: '#27ae60', // Warna Hijau
+                    backgroundColor: 'rgba(39, 174, 96, 0.1)', // Hijau Transparan
+                    borderWidth: 3,
+                    pointBackgroundColor: '#27ae60',
+                    pointRadius: 4
+                },
+                {
+                    label: "Barang Keluar (Terpakai)",
+                    data: {!!json_encode($chartMonthOut) !!},
+                    borderColor: '#c0392b', // Warna Merah
+                    backgroundColor: 'rgba(192, 57, 43, 0.1)', // Merah Transparan
+                    borderWidth: 3,
+                    pointBackgroundColor: '#c0392b',
+                    pointRadius: 4
+                }
+            ]
+        },
+        options: {
+            maintainAspectRatio: false,
+            responsive: true,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        fontFamily: "'Roboto Mono'"
+                    },
+                    gridLines: {
+                        color: "rgba(0,0,0,0.05)"
+                    }
+                }],
+                xAxes: [{
+                    gridLines: {
+                        display: false
+                    },
+                    ticks: {
+                        fontFamily: "'Roboto Mono'"
+                    }
+                }]
+            },
+            tooltips: {
+                mode: 'index',
+                intersect: false,
+                titleFontFamily: "'Roboto Mono'",
+                bodyFontFamily: "'Roboto Mono'"
             }
         }
     });

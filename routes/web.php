@@ -53,6 +53,11 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('reports', 'ReportController@index')->name('admin.reports.index');
     Route::get('reports/pdf', 'ReportController@exportPdf')->name('admin.reports.pdf');
     Route::get('reports/excel', 'ReportController@exportExcel')->name('admin.reports.excel');
+
+    // RIWAYAT BARANG MASUK (STOCK IN)
+    Route::get('stock-in', 'IncomingStockController@index')->name('admin.incoming.index');
+
+    Route::get('stock-out', 'StockOutController@index')->name('admin.stockout.index');
 });
 
 Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {

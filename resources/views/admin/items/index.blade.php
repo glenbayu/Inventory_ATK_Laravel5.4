@@ -34,6 +34,11 @@
                             <td class="text-center">{{ $item->stock }}</td>
                             <td class="text-center">{{ $item->unit }}</td>
                             <td class="text-center" style="vertical-align: middle;">
+                                <button type="button" class="btn btn-sm btn-success btn-xs btn-industrial"
+                                    data-toggle="modal"
+                                    data-target="#modalRestock{{ $item->id }}">
+                                    <i class="glyphicon glyphicon-plus"></i> RESTOCK
+                                </button>
                                 
                                 <a href="{{ route('admin.items.edit', $item->id) }}" class="btn btn-warning btn-xs btn-industrial" style="margin-right: 5px;">
                                     <i class="glyphicon glyphicon-pencil"></i> EDIT
@@ -129,6 +134,68 @@
         </div>
     </div>
 </div>
+
+@foreach($items as $item) 
+
+<div id="modalRestock{{ $item->id }}" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-sm" style="margin-top: 10%;">
+        <div class="modal-content" style="border-radius: 0; border: 3px solid #27ae60;">
+
+            <div class="modal-header" style="background: #222; color: #27ae60; border-bottom: 2px solid #27ae60;">
+                <button type="button" class="close" data-dismiss="modal" style="color:#fff;">&times;</button>
+                <h4 class="modal-title" style="font-family: 'Roboto Mono'; font-weight: bold;">
+                    <i class="glyphicon glyphicon-import"></i> RESTOCK BARANG
+                </h4>
+            </div>
+
+            <form action="{{ route('admin.item.restock', $item->id) }}" method="POST">
+                {{ csrf_field() }}
+
+                <div class="modal-body" style="background: #fff;">
+                    <div class="form-group">
+                        <label>Nama Barang:</label>
+                        <input type="text" class="form-control" value="{{ $item->name }}" readonly style="background: #eee; font-weight:bold;">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <label>Stok Skrg:</label>
+                            <div style="font-size: 18px; font-weight: bold; color: #c0392b;">
+                                {{ $item->stock }} <small style="color:#333">{{ $item->unit }}</small>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <label>Minim:</label>
+                            <div style="font-size: 18px; font-weight: bold; color: #333;">
+                                {{ $item->safety_stock }} <small>{{ $item->unit }}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <hr style="border-top: 1px dashed #333;">
+
+                    <div class="form-group">
+                        <label style="color: #27ae60; font-weight: bold;">TAMBAH BERAPA?</label>
+                        <div class="input-group">
+                            <input type="number" name="qty_add" class="form-control input-lg" placeholder="0" required min="1" autofocus style="font-family: 'Roboto Mono'; font-weight: bold;">
+                            <span class="input-group-addon" style="background: #222; color: #fff; border: 1px solid #222;">{{ $item->unit }}</span>
+                        </div>
+                        <small class="text-muted">*Input jumlah yang baru dibeli/masuk.</small>
+                    </div>
+                </div>
+
+                <div class="modal-footer" style="background: #222; border-top: 2px solid #27ae60;">
+                    <button type="button" class="btn btn-default btn-industrial pull-left" data-dismiss="modal">BATAL</button>
+                    <button type="submit" class="btn btn-success btn-industrial" style="background: #27ae60; color: #fff; border-color: #219150;">
+                        SIMPAN STOK
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+@endforeach
 
 <script>
     var formToDelete = "";

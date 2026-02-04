@@ -78,6 +78,13 @@ class ItemController extends Controller
         // Query yang jalan: UPDATE items SET stock = stock + 10 WHERE id = 1
         $item->increment('stock', $request->qty_add);
 
+        // 3. PENCATATAN RIWAYAT (BAGIAN INI YANG KEMARIN HILANG)
+        IncomingStock::create([
+            'item_id' => $item->id,
+            'user_id' => Auth::id(), // ID Admin yang login
+            'qty'     => $request->qty_add,
+        ]);
+
         // JANGAN ADA $item->save(); DISINI! HAPUS AJA!
 
         return redirect()->back()->with('success', 'Stok berhasil ditambahkan!');

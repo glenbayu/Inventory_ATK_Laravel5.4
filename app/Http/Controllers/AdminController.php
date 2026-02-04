@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Item;        // Pastikan Model Item sudah ada
-use App\Transaction; // Pastikan Model Transaction sudah ada
+use App\Item;
+use App\Transaction;
+use App\IncomingStock;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
@@ -49,8 +51,57 @@ class AdminController extends Controller
         $chartLabels = $deptStats->pluck('department');
         $chartValues = $deptStats->pluck('total');
 
+        // 1. Total Jenis Barang (Item Master)
+        $totalItems = Item::count();
+
+        $trxThisMonth = Transaction::whereMonth('created_at', Carbon::now()->month)
+            ->whereYear('created_at', Carbon::now()->year)
+            ->distinct('transaction_code') // <--- Kuncinya di sini!
+            ->count('transaction_code');   // <--- Hitung kodenya saja
+
+        // 3. Total Barang Keluar Bulan Ini (Qty Approved)
+        $qtyOutMonth = Transaction::where('status', 'approved')
+            ->whereMonth('created_at', Carbon::now()->month)
+            ->whereYear('created_at', Carbon::now()->year)
+            ->sum('qty');
+
+        // 4. Total Barang Masuk Bulan Ini (Dari Riwayat Restock)
+        $qtyInMonth = IncomingStock::whereMonth('created_at', Carbon::now()->month)
+            ->whereYear('created_at', Carbon::now()->year)
+            ->sum('qty');
+
+        $chartMonthIn = [];
+        $chartMonthOut = [];
+
+        // Kita loop dari bulan 1 (Januari) sampai 12 (Desember)
+        for ($i = 1; $i <= 12; $i++) {
+
+            // 1. Hitung Barang Masuk (Restock) per Bulan $i
+            $chartMonthIn[] = IncomingStock::whereYear('created_at', Carbon::now()->year)
+                ->whereMonth('created_at', $i)
+                ->sum('qty');
+
+            // 2. Hitung Barang Keluar (Approved) per Bulan $i
+            $chartMonthOut[] = Transaction::whereYear('created_at', Carbon::now()->year)
+                ->whereMonth('created_at', $i)
+                ->where('status', 'approved') // Hanya yang sukses keluar
+                ->sum('qty');
+        }
+
         // Kirim semua data ke View
-        return view('admin.dashboard', compact('criticalItems', 'pendingApprovals', 'topItems', 'chartLabels', 'chartValues'));
+        return view('admin.dashboard', compact(
+            'criticalItems',
+            'pendingApprovals',
+            'topItems',
+            'chartLabels',
+            'chartValues',
+            'totalItems',
+            'trxThisMonth',
+            'qtyOutMonth',
+            'qtyInMonth',
+            'chartMonthIn',
+            'chartMonthOut'
+        ));
     }
 
     public function restock($id)

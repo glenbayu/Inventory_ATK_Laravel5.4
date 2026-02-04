@@ -155,7 +155,13 @@
                 </a>
                 <a href="{{ route('admin.users.index') }}" class="{{ Request::is('admin/users*') ? 'active' : '' }}">Manajemen User</a>
                 <a href="{{ route('admin.reports.index') }}" class="{{ Request::is('admin/reports*') ? 'active' : '' }}">Laporan</a>
-                
+                <a href="{{ route('admin.incoming.index') }}" class="{{ Request::is('admin/stock-in*') ? 'active' : '' }}">
+                    Stock In (Log Masuk)
+                </a>
+                <a href="{{ route('admin.stockout.index') }}" class="{{ Request::is('admin/stock-out*') ? 'active' : '' }}">
+                    Stock Out (Log Keluar)
+                </a>
+
                 @endif
 
                 @if(Auth::check() && Auth::user()->role == 'user')
