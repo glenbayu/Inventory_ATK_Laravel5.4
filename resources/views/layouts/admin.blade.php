@@ -122,6 +122,61 @@
         /* Utility */
         .badge { background: #dd4b39; border-radius: 4px; }
         .text-muted { font-size: 12px; }
+
+        /* =========================================
+       MOBILE RESPONSIVE (TAMBAHAN PENTING)
+       ========================================= */
+    @media (max-width: 768px) {
+        /* 1. Sidebar berubah jadi Header di atas */
+        .sidebar {
+            position: relative; /* Gak nempel kiri lagi */
+            width: 100%;       /* Lebar penuh */
+            height: auto;
+            min-height: auto;
+            padding-bottom: 20px;
+        }
+
+        /* 2. Judul Sidebar dirapikan dikit */
+        .sidebar-header {
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+
+        /* 3. Link Menu di HP jadi tombol-tombol kecil */
+        .sidebar a {
+            display: inline-block; /* Biar bisa sebelahan dikit */
+            width: 48%; /* 2 kolom per baris */
+            margin-bottom: 5px;
+            font-size: 12px;
+            border-radius: 4px;
+            background: #2c3b41;
+            margin-left: 1%;
+        }
+        
+        /* Tombol Logout full width di HP */
+        .sidebar a[href*="logout"] {
+            width: 98%;
+        }
+
+        /* 4. Konten Utama geser ke kiri (karena sidebar udah naik) */
+        .main-content {
+            margin-left: 0;
+            width: 100%;
+            padding: 15px;
+        }
+
+        /* 5. Font Judul Halaman dikecilin dikit biar muat */
+        h2 {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        /* 6. Widget Statistik jadi numpuk ke bawah (1 kolom) */
+        .col-md-3, .col-md-8, .col-md-4, .col-md-12 {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+    }
     </style>
 </head>
 
