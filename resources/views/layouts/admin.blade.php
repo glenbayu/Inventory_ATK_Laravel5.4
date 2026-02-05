@@ -3,135 +3,126 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title') - Inventory System</title>
-    <link rel="icon"
-        href="data:image/svg    +xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23f39c12%22 stroke=%22%23222%22 stroke-width=%225%22/><text y=%22.9em%22 font-size=%2280%22 font-family=%22monospace%22 font-weight=%22bold%22 x=%2250%22 text-anchor=%22middle%22 fill=%22%23222%22>I</text></svg>">
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23f39c12%22 stroke=%22%23222%22 stroke-width=%225%22/><text y=%22.9em%22 font-size=%2280%22 font-family=%22monospace%22 font-weight=%22bold%22 x=%2250%22 text-anchor=%22middle%22 fill=%22%23222%22>I</text></svg>">
+    
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700|Roboto+Mono:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Roboto+Mono:400,700" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
 
     <style>
-        /* === INDUSTRIAL THEME CSS (GLOBAL) === */
+        /* 1. LAYOUT UTAMA */
         body {
-            background-color: #e8e8e8;
-            /* Abu Beton */
-            font-family: 'Roboto', sans-serif;
+            background-color: #ecf0f5; /* Abu muda */
+            font-family: 'Open Sans', sans-serif;
             color: #333;
         }
 
-        /* RESET KOTAK (SEMUA JADI TAJAM) */
-        .btn,
-        .panel,
-        .form-control,
-        .well,
-        .alert,
-        .modal-content,
-        .label,
-        .badge {
-            border-radius: 0 !important;
-        }
-
-        /* SIDEBAR STYLE */
+        /* 2. SIDEBAR */
         .sidebar {
-            background: #222;
-            /* Hitam Logam */
+            background: #222d32; /* Hitam Kebiruan */
             color: #fff;
             min-height: 100vh;
-            padding-top: 20px;
-            border-right: 4px solid #f39c12;
-            /* Kuning Safety */
             position: fixed;
-            /* Biar sidebar diem pas discroll */
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 16.66666667%;
-            /* Setara col-md-2 */
+            left: 0; top: 0; bottom: 0;
+            width: 16.66%;
             z-index: 1000;
+            padding-top: 0;
         }
 
-        .sidebar h3 {
-            font-family: 'Roboto Mono', monospace;
+        /* === PERUBAHAN DI SINI: HEADER SIDEBAR TRANSPARAN & ELEGAN === */
+        .sidebar-header {
+            background-color: transparent; /* Tidak ada kotak oranye lagi */
+            padding: 25px 15px;
             text-align: center;
-            font-weight: bold;
-            letter-spacing: 2px;
-            margin-bottom: 30px;
-            border-bottom: 2px dashed #555;
-            padding-bottom: 15px;
-        }
-
-        .sidebar a {
-            color: #ccc;
-            display: block;
-            padding: 15px 20px;
-            text-decoration: none;
-            text-transform: uppercase;
-            font-weight: bold;
-            border-bottom: 1px solid #333;
-            transition: 0.3s;
-        }
-
-        .sidebar a:hover,
-        .sidebar a.active {
-            background: #f39c12;
-            color: #000;
-        }
-
-        /* MAIN CONTENT STYLE */
-        .main-content {
-            margin-left: 16.66666667%;
-            /* Geser konten ke kanan biar ga ketutup sidebar */
-            padding: 20px;
-            min-height: 100vh;
-        }
-
-        /* PANEL INDUSTRIAL */
-        .panel-industrial {
-            border: 2px solid #444;
-            box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.2);
-            background: #fff;
+            border-bottom: 1px solid rgba(255,255,255,0.1); /* Garis pemisah tipis */
             margin-bottom: 20px;
         }
 
-        .panel-heading-industrial {
-            background: #444;
+        /* LINK MENU SIDEBAR */
+        .sidebar a {
+            color: #b8c7ce;
+            display: block;
+            padding: 12px 20px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            border-left: 3px solid transparent;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover, .sidebar a.active {
+            background: #1e282c;
             color: #fff;
-            padding: 10px 15px;
-            font-family: 'Roboto Mono', monospace;
+            border-left: 3px solid #f39c12; /* Indikator Aktif */
+        }
+
+        /* 3. KONTEN UTAMA */
+        .main-content {
+            margin-left: 16.66%;
+            padding: 30px;
+            min-height: 100vh;
+        }
+
+        /* 4. HEADER HALAMAN (Judul Halaman Tetap Oranye) */
+        h2 {
+            background-color: #f39c12;
+            color: #fff;
+            padding: 15px 20px;
+            margin: 0 0 25px 0;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             text-transform: uppercase;
-            font-weight: bold;
-            border-bottom: 2px solid #000;
+            border: none;
         }
+        
+        h2 .btn {
+            margin-top: -5px;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.4);
+            color: #fff;
+        }
+        h2 .btn:hover { background: #fff; color: #f39c12; }
 
-        /* TYPOGRAPHY */
-        h1,
-        h2,
-        h3,
-        h4,
-        th {
-            font-family: 'Roboto Mono', monospace;
+        /* 5. PANEL & CARDS */
+        .panel {
+            border: none; border-radius: 5px;
+            background: #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
         }
+        .panel-heading, .panel-heading-industrial {
+            background: #fff; color: #444;
+            font-weight: 700; padding: 15px 20px;
+            border-bottom: 1px solid #f4f4f4;
+            border-radius: 5px 5px 0 0;
+        }
+        .panel-body { padding: 20px; }
 
-        .data-number {
-            font-family: 'Roboto Mono', monospace;
-            font-weight: bold;
-        }
+        /* 6. TOMBOL & FORM */
+        .btn { border-radius: 3px; border: none; font-weight: 600; padding: 6px 12px; }
+        .btn-primary { background: #3c8dbc; }
+        .btn-success { background: #00a65a; }
+        .btn-danger { background: #dd4b39; }
+        .btn-warning { background: #f39c12; color: #fff; }
+        .form-control { border-radius: 3px; height: 34px; border: 1px solid #d2d6de; box-shadow: none; }
+        .form-control:focus { border-color: #f39c12; }
 
-        /* TOMBOL KEREN */
-        .btn-industrial {
-            border: 2px solid #000;
-            font-weight: bold;
-            text-transform: uppercase;
-            box-shadow: 3px 3px 0px #000;
-            transition: 0.2s;
-        }
-
-        .btn-industrial:active {
-            transform: translate(2px, 2px);
-            box-shadow: 1px 1px 0px #000;
-        }
+        /* 7. WIDGET WARNA */
+        .panel-industrial { border-top: 3px solid #d2d6de; }
+        .panel-industrial:nth-child(1) { border-top-color: #00c0ef; }
+        .panel-industrial:nth-child(2) { border-top-color: #dd4b39; }
+        .panel-industrial:nth-child(3) { border-top-color: #00a65a; }
+        .panel-industrial:nth-child(4) { border-top-color: #f39c12; }
+        
+        /* Utility */
+        .badge { background: #dd4b39; border-radius: 4px; }
+        .text-muted { font-size: 12px; }
     </style>
-
 </head>
 
 <body>
@@ -140,43 +131,73 @@
         <div class="row">
 
             <div class="col-md-2 sidebar">
-                <h3 class="text-center" style="font-family:'Roboto Mono'; border-bottom: 2px dashed #555; padding-bottom:15px;">
-                    INVENTORY<br><span style="color:#f39c12; font-size:14px;">SYSTEM v1.0</span>
-                </h3>
+                
+                <div class="sidebar-header">
+                    <div style="font-size: 20px; font-weight: 800; letter-spacing: 1px; color: #fff;">
+                        INVENTORY <span style="color: #f39c12;">SYSTEM AGI</span>
+                    </div>
+                    <div style="font-size: 10px; color: #6c7b88; margin-top: 5px; letter-spacing: 2px; font-weight: 600;">
+                        VERSION 1.0
+                    </div>
+                </div>
 
                 @if(Auth::check() && Auth::user()->role == 'admin')
-                <a href="{{ route('admin.dashboard') }}" class="{{ Request::is('admin/dashboard') ? 'active' : '' }}">Dashboard</a>
-                <a href="{{ route('admin.items.index') }}" class="{{ Request::is('admin/items*') ? 'active' : '' }}">Master Barang</a>
+                <a href="{{ route('admin.dashboard') }}" class="{{ Request::is('admin/dashboard') ? 'active' : '' }}">
+                    <i class="glyphicon glyphicon-dashboard" style="margin-right: 10px;"></i> Dashboard
+                </a>
+                
+                <a href="{{ route('admin.items.index') }}" class="{{ Request::is('admin/items*') ? 'active' : '' }}">
+                    <i class="glyphicon glyphicon-th-list" style="margin-right: 10px;"></i> Master Barang
+                </a>
+                
                 <a href="{{ route('admin.transactions.approval') }}" class="{{ Request::is('admin/approval*') ? 'active' : '' }}">
-                    Transaksi
+                    <i class="glyphicon glyphicon-transfer" style="margin-right: 10px;"></i> Transaksi
                     @if(isset($pendingCount) && $pendingCount > 0)
-                    <span class="badge pull-right" style="background:red; font-family: 'Roboto Mono';">{{ $pendingCount }}</span>
+                    <span class="badge pull-right">{{ $pendingCount }}</span>
                     @endif
                 </a>
-                <a href="{{ route('admin.users.index') }}" class="{{ Request::is('admin/users*') ? 'active' : '' }}">Manajemen User</a>
-                <a href="{{ route('admin.reports.index') }}" class="{{ Request::is('admin/reports*') ? 'active' : '' }}">Laporan</a>
-                <a href="{{ route('admin.incoming.index') }}" class="{{ Request::is('admin/stock-in*') ? 'active' : '' }}">
-                    Stock In (Log Masuk)
-                </a>
-                <a href="{{ route('admin.stockout.index') }}" class="{{ Request::is('admin/stock-out*') ? 'active' : '' }}">
-                    Stock Out (Log Keluar)
+                
+                <a href="{{ route('admin.users.index') }}" class="{{ Request::is('admin/users*') ? 'active' : '' }}">
+                    <i class="glyphicon glyphicon-user" style="margin-right: 10px;"></i> Manajemen User
                 </a>
 
+                <div style="padding: 15px 20px; font-size: 11px; color: #5b6e79; margin-top: 10px; font-weight: bold; letter-spacing: 1px;">
+                    LAPORAN & LOG
+                </div>
+
+                <a href="{{ route('admin.incoming.index') }}" class="{{ Request::is('admin/stock-in*') ? 'active' : '' }}">
+                    <i class="glyphicon glyphicon-import" style="margin-right: 10px;"></i> Stock In
+                </a>
+                
+                <a href="{{ route('admin.stockout.index') }}" class="{{ Request::is('admin/stock-out*') ? 'active' : '' }}">
+                    <i class="glyphicon glyphicon-export" style="margin-right: 10px;"></i> Stock Out
+                </a>
+                
+                <a href="{{ route('admin.reports.index') }}" class="{{ Request::is('admin/reports*') ? 'active' : '' }}">
+                    <i class="glyphicon glyphicon-file" style="margin-right: 10px;"></i> Laporan PDF
+                </a>
                 @endif
 
                 @if(Auth::check() && Auth::user()->role == 'user')
-                <a href="{{ route('user.dashboard') }}" class="{{ Request::is('user/dashboard') ? 'active' : '' }}">Dashboard</a>
-                <a href="{{ route('user.request.create') }}" class="{{ Request::is('user/request*') ? 'active' : '' }}">Pengajuan Barang</a>
+                <a href="{{ route('user.dashboard') }}" class="{{ Request::is('user/dashboard') ? 'active' : '' }}">
+                    <i class="glyphicon glyphicon-dashboard" style="margin-right: 10px;"></i> Dashboard
+                </a>
+                <a href="{{ route('user.request.create') }}" class="{{ Request::is('user/request*') ? 'active' : '' }}">
+                    <i class="glyphicon glyphicon-plus" style="margin-right: 10px;"></i> Pengajuan Barang
+                </a>
                 @endif
 
                 <a href="{{ route('logout') }}"
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                    style="margin-top: 50px; border-top: 2px solid #555;">Logout</a>
+                    style="margin-top: 30px; border-top: 1px solid #2c3b41; color: #dd4b39;">
+                    <i class="glyphicon glyphicon-off" style="margin-right: 10px;"></i> Logout
+                </a>
 
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     {{ csrf_field() }}
                 </form>
             </div>
+
             <div class="col-md-10 main-content">
                 @yield('content')
             </div>
@@ -187,5 +208,4 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     @yield('scripts')
 </body>
-
 </html>
