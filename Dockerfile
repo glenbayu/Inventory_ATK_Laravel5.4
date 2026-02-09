@@ -37,8 +37,11 @@ ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
-# Expose port 80
-EXPOSE 80
+# Change Apache Port to 7860 (Required by Hugging Face Spaces)
+RUN sed -s -i -e 's/80/7860/' /etc/apache2/ports.conf /etc/apache2/sites-available/*.conf
+
+# Expose port 7860
+EXPOSE 7860
 
 # Copy and set entrypoint
 COPY docker-entrypoint.sh /usr/local/bin/
