@@ -1,147 +1,153 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login - Inventory System</title>
-
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700|Roboto+Mono:400,700" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
+    
     <style>
-        /* --- INDUSTRIAL THEME CSS --- */
         body {
-            background-color: #2c3e50; /* Biru Tua Gelap (Warna Gudang Malam) */
-            background-image: repeating-linear-gradient(
-                45deg,
-                #2c3e50,
-                #2c3e50 10px,
-                #34495e 10px,
-                #34495e 20px
-            ); /* Efek garis-garis halus */
-            font-family: 'Roboto', sans-serif;
+            background-color: #ecf0f5; /* Abu muda (sama kayak dashboard) */
+            font-family: 'Open Sans', sans-serif;
             height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .login-container {
+        .login-box {
             width: 100%;
             max-width: 400px;
             padding: 15px;
         }
 
-        .panel-industrial {
-            border: 0;
-            border-radius: 0; /* Kotak tajam */
-            box-shadow: 15px 15px 0px rgba(0,0,0,0.5); /* Bayangan kasar */
-            background: #f8f9fa;
+        .panel-login {
+            background: #fff;
+            border: none;
+            border-radius: 8px; /* Sudut tumpul */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); /* Shadow halus */
+            padding: 30px;
         }
 
-        .panel-heading-industrial {
-            background-color: #222;
-            color: #f39c12; /* Kuning Safety */
-            padding: 20px;
+        .login-header {
             text-align: center;
-            border-bottom: 5px solid #f39c12;
-            font-family: 'Roboto Mono', monospace;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+
+        .login-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #333;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        .login-subtitle {
+            font-size: 12px;
+            color: #f39c12; /* Oranye */
+            font-weight: 700;
             letter-spacing: 2px;
-            font-weight: bold;
+            margin-top: 5px;
+            text-transform: uppercase;
         }
 
         .form-control {
-            border-radius: 0;
-            border: 2px solid #555;
             height: 45px;
-            font-family: 'Roboto Mono', monospace;
-            background: #fff;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            background: #fdfdfd;
+            box-shadow: none;
+            font-size: 14px;
         }
-        
+
         .form-control:focus {
             border-color: #f39c12;
-            box-shadow: none;
+            background: #fff;
         }
 
-        .btn-industrial {
+        .input-group-addon {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-right: none;
+            color: #777;
+        }
+
+        .btn-login {
             background-color: #f39c12;
-            color: #000;
+            color: #fff;
             font-weight: bold;
-            text-transform: uppercase;
-            border: 3px solid #000;
-            border-radius: 0;
-            width: 100%;
-            padding: 12px;
+            height: 45px;
+            border-radius: 4px;
             font-size: 16px;
-            transition: all 0.2s;
+            transition: 0.3s;
+            border: none;
+            width: 100%;
+            margin-top: 20px;
         }
 
-        .btn-industrial:hover {
-            background-color: #000;
-            color: #f39c12;
-            border-color: #f39c12;
-            transform: translateY(-2px); /* Efek pencet */
+        .btn-login:hover {
+            background-color: #e67e22;
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.3);
         }
 
-        .footer-text {
+        .text-footer {
             text-align: center;
             margin-top: 20px;
-            color: #ccc;
-            font-family: 'Roboto Mono', monospace;
             font-size: 12px;
+            color: #999;
         }
     </style>
 </head>
 <body>
 
-<div class="login-container">
-    <div class="panel panel-industrial">
-        <div class="panel-heading-industrial">
-            <i class="glyphicon glyphicon-lock"></i> SECURE ACCESS
-        </div>
-        <div class="panel-body" style="padding: 30px;">
-            
-            <form class="form-horizontal" method="POST" action="{{ route('login') }}">
+    <div class="login-box">
+        <div class="panel-login">
+            <div class="login-header">
+                <div class="login-title">INVENTORY AGI</div>
+                <div class="login-subtitle">SYSTEM V1.0</div>
+            </div>
+
+            <form method="POST" action="{{ route('login') }}">
                 {{ csrf_field() }}
 
-                <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                    <label style="font-weight:bold; text-transform:uppercase; font-size:12px;">ID / Email</label>
-                    <div class="input-group">
-                        <span class="input-group-addon" style="border-radius:0; background:#ddd; border:2px solid #555; border-right:0;"><i class="glyphicon glyphicon-user"></i></span>
-                        <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus placeholder="user@factory.com">
+                @if ($errors->has('email'))
+                    <div class="alert alert-danger text-center" style="font-size: 12px; padding: 10px;">
+                        {{ $errors->first('email') }}
                     </div>
-                    @if ($errors->has('email'))
-                        <span class="help-block text-danger"><strong>{{ $errors->first('email') }}</strong></span>
-                    @endif
-                </div>
+                @endif
 
-                <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}" style="margin-top: 20px;">
-                    <label style="font-weight:bold; text-transform:uppercase; font-size:12px;">Password</label>
+                <div class="form-group">
+                    <label class="text-muted" style="font-size:12px; font-weight:600;">EMAIL</label>
                     <div class="input-group">
-                        <span class="input-group-addon" style="border-radius:0; background:#ddd; border:2px solid #555; border-right:0;"><i class="glyphicon glyphicon-asterisk"></i></span>
-                        <input id="password" type="password" class="form-control" name="password" required placeholder="********">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                        <input type="email" name="email" class="form-control" placeholder="user@factory.com" required autofocus value="{{ old('email') }}">
                     </div>
-                    @if ($errors->has('password'))
-                        <span class="help-block text-danger"><strong>{{ $errors->first('password') }}</strong></span>
-                    @endif
                 </div>
 
-                <div class="form-group" style="margin-top: 30px; margin-bottom: 0;">
-                    <button type="submit" class="btn btn-industrial">
-                        MASUK SISTEM &rarr;
-                    </button>
+                <div class="form-group">
+                    <label class="text-muted" style="font-size:12px; font-weight:600;">PASSWORD</label>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                        <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+                    </div>
                 </div>
 
+                <button type="submit" class="btn btn-login">
+                    MASUK SISTEM
+                </button>
             </form>
+
+            <div class="text-footer">
+                &copy; {{ date('Y') }} PT. Asano Gear Indonesia. All rights reserved.
+            </div>
         </div>
     </div>
-    
-    <div class="footer-text">
-        INVENTORY SYSTEM v1.0<br>
-        <span style="color: #f39c12">UNAUTHORIZED ACCESS IS PROHIBITED</span>
-    </div>
-</div>
 
 </body>
 </html>

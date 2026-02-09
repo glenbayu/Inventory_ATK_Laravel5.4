@@ -12,7 +12,8 @@ class Transaction extends Model
         'qty', 
         'reason', 
         'status', 
-        'transaction_code'
+        'transaction_code',
+        'department'
     ];
 
     public function user()

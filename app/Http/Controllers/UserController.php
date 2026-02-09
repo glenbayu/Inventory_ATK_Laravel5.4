@@ -38,45 +38,52 @@ class UserController extends Controller
     // 2. HALAMAN FORM REQUEST
     public function createRequest()
     {
-        // Tampilkan barang yang stoknya > 0 saja
-        $items = Item::where('stock', '>', 0)->orderBy('name')->get();
-        return view('user.request', compact('items'));
+        // Ambil semua barang yang stoknya > 0
+        $items = Item::where('stock', '>', 0)->get();
+        // Kirim ke view
+        return view('user.request.create', compact('items'));
     }
 
     public function storeRequest(Request $request)
     {
-        // 1. Validasi Array
+        // 1. Validasi Input
         $this->validate($request, [
-            'item_id.*' => 'required|exists:items,id', // Cek setiap item harus ada
-            'qty.*'     => 'required|numeric|min:1',   // Cek setiap qty harus angka
-            'reason'    => 'nullable|string'
+            'item_id' => 'required|array',      // Harus array karena barang banyak
+            'item_id.*' => 'exists:items,id',   // Pastikan barangnya ada
+            'qty' => 'required|array',          
+            'qty.*' => 'integer|min:1',         // Minimal minta 1
+            'department' => 'required|string',  // Wajib pilih departemen
+            'reason' => 'nullable|string'       // Alasan boleh kosong
         ]);
 
-        // 2. Generate Kode Transaksi (Satu kode untuk satu rombongan barang)
-        // Format: REQ-TIMESTAMP-USERID (Biar unik)
-        $code = 'REQ-' . time() . '-' . Auth::id();
+        // 2. Bikin Kode Transaksi Unik (REQ-TANGGAL-RANDOM)
+        // Contoh: REQ-06022026-X7Z
+        $code = 'REQ-' . date('dmY') . '-' . strtoupper(str_random(3));
 
-        // 3. Looping Simpan Data
-        // Kita ambil array item_id, lalu kita putar (loop)
-        $items = $request->item_id;
+        // 3. Simpan Setiap Barang ke Database
+        // Kita looping array item_id yang dikirim dari form
+        foreach ($request->item_id as $key => $id) {
+            
+            // Cek stok dulu biar aman (Validasi Server Side)
+            $item = \App\Item::find($id);
+            $qty_minta = $request->qty[$key];
 
-        // Gunakan DB Transaction biar aman (kalau satu gagal, semua batal)
-        DB::transaction(function () use ($items, $request, $code) {
-            foreach ($items as $key => $itemId) {
-                // Lewati jika item_id kosong (jaga-jaga)
-                if (empty($itemId)) continue;
-
-                Transaction::create([
-                    'user_id' => Auth::id(),
-                    'item_id' => $itemId,
-                    'qty'     => $request->qty[$key], // Ambil qty sesuai urutan index
-                    'reason'  => $request->reason,
-                    'status'  => 'pending',
-                    'transaction_code' => $code
-                ]);
+            if($item->stock < $qty_minta) {
+                return back()->with('error', "Stok barang {$item->name} tidak cukup! Sisa: {$item->stock}");
             }
-        });
 
-        return redirect()->route('user.dashboard')->with('success', 'Permintaan borongan berhasil dikirim!');
+            // Simpan Transaksi
+            \App\Transaction::create([
+                'user_id' => \Auth::id(),
+                'item_id' => $id,
+                'qty' => $qty_minta,
+                'department' => $request->department, // <--- Simpan Dept Manual
+                'reason' => $request->reason,         // <--- Simpan Alasan
+                'status' => 'pending',
+                'transaction_code' => $code
+            ]);
+        }
+
+        return redirect()->route('user.dashboard')->with('success', 'Permintaan berhasil diajukan! Kode: ' . $code);
     }
 }
