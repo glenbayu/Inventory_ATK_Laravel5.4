@@ -19,12 +19,13 @@ class AdminController extends Controller
         $criticalItems = Item::whereColumn('stock', '<=', 'safety_stock')->get();
 
         // 2. DATA APPROVAL (Panel Kanan Atas)
-        // Logic: Ambil transaksi status 'pending', load relasi user & item
-        $pendingApprovals = Transaction::with(['user', 'item'])
+        // Logic: Ambil item pending, lalu group per transaction_code
+        $pendingApprovalGroups = Transaction::with(['user', 'item'])
             ->where('status', 'pending')
             ->orderBy('created_at', 'asc')
-            ->take(5) // Ambil 5 terlama biar ga penuh
-            ->get();
+            ->get()
+            ->groupBy('transaction_code')
+            ->take(5); // Ambil 5 transaksi terlama biar ga penuh
 
         // 3. DATA TOP BARANG (Panel Tengah Atas)
         // Logic: Hitung jumlah request per item
@@ -91,7 +92,7 @@ class AdminController extends Controller
         // Kirim semua data ke View
         return view('admin.dashboard', compact(
             'criticalItems',
-            'pendingApprovals',
+            'pendingApprovalGroups',
             'topItems',
             'chartLabels',
             'chartValues',

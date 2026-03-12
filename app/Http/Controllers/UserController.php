@@ -40,8 +40,9 @@ class UserController extends Controller
     {
         // Ambil semua barang yang stoknya > 0
         $items = Item::where('stock', '>', 0)->get();
+        $departments = \App\User::departmentOptions();
         // Kirim ke view
-        return view('user.request.create', compact('items'));
+        return view('user.request.create', compact('items', 'departments'));
     }
 
     public function storeRequest(Request $request)
@@ -52,7 +53,7 @@ class UserController extends Controller
             'item_id.*' => 'exists:items,id',   // Pastikan barangnya ada
             'qty' => 'required|array',          
             'qty.*' => 'integer|min:1',         // Minimal minta 1
-            'department' => 'required|string',  // Wajib pilih departemen
+            'department' => 'required|string|in:' . implode(',', \App\User::departmentOptions()),
             'reason' => 'nullable|string'       // Alasan boleh kosong
         ]);
 

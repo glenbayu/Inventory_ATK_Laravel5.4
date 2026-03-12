@@ -34,15 +34,23 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Departemen</label>
-                                <input type="text" name="department" class="form-control" value="{{ $user->department }}" required>
+                                <select name="department" class="form-control" required>
+                                    <option value="">-- Pilih Departemen --</option>
+                                    @foreach($departments as $department)
+                                        <option value="{{ $department }}"
+                                            {{ old('department', $user->department) == $department ? 'selected' : '' }}>
+                                            {{ $department }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Role</label>
                                 <select name="role" class="form-control">
-                                    <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>USER</option>
-                                    <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>ADMIN</option>
+                                    <option value="user" {{ old('role', $user->role) == 'user' ? 'selected' : '' }}>USER</option>
+                                    <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>ADMIN</option>
                                 </select>
                             </div>
                         </div>

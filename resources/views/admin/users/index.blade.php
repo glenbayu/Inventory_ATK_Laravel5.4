@@ -5,11 +5,9 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
-        <h2 style="font-family: 'Roboto Mono'; font-weight: bold; border-bottom: 3px solid #333; padding-bottom: 10px;">
-            MANAJEMEN USER (STAFF)
-        </h2>
+        <h2>MANAJEMEN USER (STAFF)</h2>
         
-        <div class="text-right" style="margin-bottom: 20px;">
+        <div class="text-right page-actions">
             <a href="{{ route('admin.users.create') }}" class="btn btn-primary btn-lg btn-industrial">
                 <i class="glyphicon glyphicon-plus"></i> TAMBAH USER BARU
             </a>
@@ -17,8 +15,8 @@
 
         <div class="panel panel-industrial">
             <div class="panel-body">
-                <table class="table table-bordered table-striped">
-                    <thead style="background: #222; color: #fff;">
+                <table class="table table-bordered table-striped table-dark-head">
+                    <thead>
                         <tr>
                             <th>NAMA</th>
                             <th>EMAIL</th>
@@ -35,9 +33,9 @@
                             <td style="vertical-align: middle;">{{ $u->department }}</td>
                             <td class="text-center" style="vertical-align: middle;">
                                 @if($u->role == 'admin')
-                                    <span class="label label-danger" style="border-radius:0;">ADMIN</span>
+                                    <span class="label label-danger">ADMIN</span>
                                 @else
-                                    <span class="label label-info" style="border-radius:0;">USER</span>
+                                    <span class="label label-info">USER</span>
                                 @endif
                             </td>
                             <td class="text-center">
@@ -65,7 +63,7 @@
     </div>
 </div>
 
-<div id="modalDeleteUser" class="modal fade" role="dialog" style="z-index: 1600;">
+<div id="modalDeleteUser" class="modal fade modal-industrial" role="dialog" style="z-index: 1600;">
     <div class="modal-dialog modal-sm" style="margin-top: 15%;">
         <div class="modal-content" style="border-radius: 0; border: 4px solid #c0392b; box-shadow: 0px 0px 20px rgba(0,0,0,0.5);">
             <div class="modal-header" style="background: #222; color: #c0392b; border-bottom: 2px solid #c0392b;">

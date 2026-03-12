@@ -27,22 +27,22 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Departemen</label>
-                                <select name="department" class="form-control">
-                                    <option value="Production">Production</option>
-                                    <option value="HRD">HRD</option>
-                                    <option value="GA">GA</option>
-                                    <option value="Finance">Finance</option>
-                                    <option value="IT">IT</option>
-                                    <option value="Warehouse">Warehouse</option>
+                                <select name="department" class="form-control" required>
+                                    <option value="">-- Pilih Departemen --</option>
+                                    @foreach($departments as $department)
+                                        <option value="{{ $department }}" {{ old('department') == $department ? 'selected' : '' }}>
+                                            {{ $department }}
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Role / Jabatan</label>
-                                <select name="role" class="form-control">
-                                    <option value="user">USER (Staff)</option>
-                                    <option value="admin">ADMIN (Superuser)</option>
+                                <select name="role" class="form-control" required>
+                                    <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>USER (Staff)</option>
+                                    <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>ADMIN (Superuser)</option>
                                 </select>
                             </div>
                         </div>

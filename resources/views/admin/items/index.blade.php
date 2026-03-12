@@ -5,7 +5,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <h2 style="font-family: 'Roboto Mono'; font-weight: bold; border-bottom: 3px solid #333; padding-bottom: 10px;">
+            <h2>
                 MASTER DATA BARANG
                 <button class="btn btn-primary btn-industrial pull-right" data-toggle="modal" data-target="#modalAdd">
                     + TAMBAH BARANG BARU
@@ -16,7 +16,7 @@
                 <div class="panel-body">
                     <table class="table table-striped table-hover">
                         <thead>
-                            <tr style="background: #eee;">
+                            <tr>
                                 <th>KODE</th>
                                 <th>NAMA BARANG</th>
                                 <th>KATEGORI</th>
@@ -28,7 +28,7 @@
                         <tbody>
                             @foreach($items as $item)
                                 <tr>
-                                    <td style="font-family:'Roboto Mono'">{{ $item->code }}</td>
+                                    <td>{{ $item->code }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->category }}</td>
                                     <td class="text-center">{{ $item->stock }}</td>
@@ -40,7 +40,7 @@
                                         </button>
 
                                         <a href="{{ route('admin.items.edit', $item->id) }}"
-                                            class="btn btn-warning btn-xs btn-industrial" style="margin-right: 5px;">
+                                            class="btn btn-warning btn-xs btn-industrial">
                                             <i class="glyphicon glyphicon-pencil"></i> EDIT
                                         </a>
 
@@ -66,10 +66,10 @@
         </div>
     </div>
 
-    <div id="modalAdd" class="modal fade" role="dialog">
+    <div id="modalAdd" class="modal fade modal-industrial" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header" style="background:#222; color:#fff">
+                <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" style="color:#fff">&times;</button>
                     <h4 class="modal-title">TAMBAH BARANG BARU</h4>
                 </div>
@@ -121,13 +121,11 @@
         </div>
     </div>
 
-    <div id="modalDelete" class="modal fade" role="dialog" style="z-index: 1600;">
+    <div id="modalDelete" class="modal fade modal-industrial" role="dialog" style="z-index: 1600;">
         <div class="modal-dialog modal-sm" style="margin-top: 15%;">
-            <div class="modal-content"
-                style="border-radius: 0; border: 4px solid #c0392b; box-shadow: 0px 0px 20px rgba(0,0,0,0.5);">
-
-                <div class="modal-header" style="background: #222; color: #c0392b; border-bottom: 2px solid #c0392b;">
-                    <h4 class="modal-title" style="font-family: 'Roboto Mono'; font-weight: bold;">
+            <div class="modal-content">
+                <div class="modal-header" style="color: #f3b8b1;">
+                    <h4 class="modal-title">
                         <i class="glyphicon glyphicon-alert"></i> HAPUS BARANG?
                     </h4>
                 </div>
@@ -135,11 +133,11 @@
                 <div class="modal-body" style="background: #fff; color: #333;">
                     <p style="font-size: 14px;">Barang ini akan dihapus permanen dari sistem:</p>
                     <h4 id="deleteItemName"
-                        style="font-family: 'Roboto Mono'; font-weight: bold; background: #ffebeb; padding: 10px; text-align: center; border: 1px dashed #c0392b;">
+                        style="font-weight: 700; background: #ffebeb; padding: 10px; text-align: center; border: 1px dashed #c0392b;">
                         -</h4>
                 </div>
 
-                <div class="modal-footer" style="background: #222; border-top: 2px solid #c0392b;">
+                <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-industrial pull-left" data-dismiss="modal"
                         style="color: #fff; background: transparent; border-color: #fff;">BATAL</button>
                     <button type="button" class="btn btn-danger btn-industrial" id="btnExecuteDelete"
@@ -154,13 +152,13 @@
 
     @foreach($items as $item)
 
-        <div id="modalRestock{{ $item->id }}" class="modal fade" role="dialog">
+        <div id="modalRestock{{ $item->id }}" class="modal fade modal-industrial" role="dialog">
             <div class="modal-dialog modal-sm" style="margin-top: 10%;">
-                <div class="modal-content" style="border-radius: 0; border: 3px solid #27ae60;">
+                <div class="modal-content" style="border: 2px solid #2b8a57;">
 
-                    <div class="modal-header" style="background: #222; color: #27ae60; border-bottom: 2px solid #27ae60;">
+                    <div class="modal-header" style="color: #90dab4; border-bottom: 1px solid #2b8a57;">
                         <button type="button" class="close" data-dismiss="modal" style="color:#fff;">&times;</button>
-                        <h4 class="modal-title" style="font-family: 'Roboto Mono'; font-weight: bold;">
+                        <h4 class="modal-title">
                             <i class="glyphicon glyphicon-import"></i> RESTOCK BARANG
                         </h4>
                     </div>
@@ -195,7 +193,7 @@
                                 <label style="color: #27ae60; font-weight: bold;">TAMBAH BERAPA?</label>
                                 <div class="input-group">
                                     <input type="number" name="qty_add" class="form-control input-lg" placeholder="0" required
-                                        min="1" autofocus style="font-family: 'Roboto Mono'; font-weight: bold;">
+                                        min="1" autofocus style="font-weight: 700;">
                                     <span class="input-group-addon"
                                         style="background: #222; color: #fff; border: 1px solid #222;">{{ $item->unit }}</span>
                                 </div>
@@ -203,7 +201,7 @@
                             </div>
                         </div>
 
-                        <div class="modal-footer" style="background: #222; border-top: 2px solid #27ae60;">
+                        <div class="modal-footer">
                             <button type="button" class="btn btn-default btn-industrial pull-left"
                                 data-dismiss="modal">BATAL</button>
                             <button type="submit" class="btn btn-success btn-industrial"

@@ -9,13 +9,31 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    public static function departmentOptions()
+    {
+        return [
+            'Office IT',
+            'HRD & GA',
+            'Production',
+            'Marketing',
+            'Finance',
+            'Warehouse',
+            'Purchasing',
+            'Assy',
+            'Mach',
+            'PPC',
+            'IT',
+            'GA',
+        ];
+    }
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'role', 'department'
     ];
 
     /**
