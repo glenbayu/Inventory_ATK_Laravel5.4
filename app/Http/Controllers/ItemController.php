@@ -72,7 +72,7 @@ class ItemController extends Controller
         ]);
 
         // 2. Cari Barang
-        $item = Item::findOrFail($id);
+        $item = Item::findOrFail($id);  
 
         // 3. Update Otomatis (Database yang hitung)
         // Query yang jalan: UPDATE items SET stock = stock + 10 WHERE id = 1

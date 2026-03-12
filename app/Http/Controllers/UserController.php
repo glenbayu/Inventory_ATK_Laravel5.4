@@ -38,13 +38,9 @@ class UserController extends Controller
     // 2. HALAMAN FORM REQUEST
     public function createRequest(Request $request)
     {
-        $search = $request->search;
         $items = Item::where('stock', '>', 0)
-        ->when($search, function ($query, $search) {
-            return $query->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($search) . '%']);
-        })
-        ->orderBy('name', 'asc')
-        ->paginate(6);
+            ->orderBy('name', 'asc')
+            ->get();
 
         return view('user.request.create', compact('items'));
     }

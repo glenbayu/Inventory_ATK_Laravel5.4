@@ -222,24 +222,21 @@
         <div class="col-md-8">
 
             <div class="search-container">
-                <form method="GET" action="{{ route('user.request.create') }}">
-                    <div style="display: flex; gap: 10px;">
-                        <div style="position: relative; flex: 1;">
-                            <i class="glyphicon glyphicon-search search-icon"></i>
-                            <input 
-                                type="text" 
-                                name="search" 
-                                class="form-control search-input" 
-                                placeholder="Ketik nama barang..."
-                                value="{{ request('search') }}"
-                                style="margin-bottom: 0;"
-                            >
-                        </div>
-                        <button type="submit" class="btn btn-warning" style="border-radius: 50px; padding: 0 25px; font-weight: bold;">
-                            <i class="glyphicon glyphicon-search"></i> Cari
-                        </button>
+                <div style="display: flex; gap: 10px;">
+                    <div style="position: relative; flex: 1;">
+                        <i class="glyphicon glyphicon-search search-icon"></i>
+                        <input
+                            type="text"
+                            id="item-search-input"
+                            class="form-control search-input"
+                            placeholder="Ketik nama barang..."
+                            style="margin-bottom: 0;"
+                        >
                     </div>
-                </form>
+                    <button type="button" id="item-search-btn" class="btn btn-warning" style="border-radius: 50px; padding: 0 25px; font-weight: bold;">
+                            <i class="glyphicon glyphicon-search"></i> Cari
+                    </button>
+                </div>
             </div>
 
             <div id="catalog-list">
@@ -265,15 +262,17 @@
 
                     </div>
                 @empty
-                    <div class="text-center" style="padding: 50px; color: #999;">
+                    <div class="text-center" style="padding: 50px; color: #999;" id="empty-stock-msg">
                         <i class="glyphicon glyphicon-inbox" style="font-size: 40px; margin-bottom: 10px;"></i><br>
                         Stok barang sedang kosong semua.
                     </div>
                 @endforelse
             </div>
-            <div class="text-center" style="margin-top: 20px;">
-                {{ $items->appends(request()->query())->links() }}
+            <div class="text-center" style="padding: 20px; color: #999; display: none;" id="no-search-result-msg">
+                <i class="glyphicon glyphicon-search" style="margin-right: 5px;"></i>
+                Barang tidak ditemukan untuk kata kunci tersebut.
             </div>
+            <div class="text-center" id="catalog-pagination" style="margin-top: 10px; display: none;"></div>
 
         </div>
 
@@ -409,15 +408,118 @@
                 document.getElementById('empty-cart-msg').style.display = 'block';
             }
         }
-        $(document).ready(function() {
-            $('input[name="search"]').on('input', function() {
-                // Cek apakah nilai input sekarang kosong
-                if ($(this).val() === '') {
-                    // Jika kosong, arahkan kembali ke halaman create (reset search)
-                    // Ini akan reload halaman tanpa parameter ?search=
-                    window.location.href = "{{ route('user.request.create') }}";
+
+        var catalogCurrentPage = 1;
+        var catalogItemsPerPage = 8;
+
+        function renderCatalogPagination(totalPages) {
+            var paginationContainer = document.getElementById('catalog-pagination');
+
+            if (totalPages <= 1) {
+                paginationContainer.style.display = 'none';
+                paginationContainer.innerHTML = '';
+                return;
+            }
+
+            var html = '<ul class="pagination" style="margin: 0;">';
+            html += '<li class="' + (catalogCurrentPage === 1 ? 'disabled' : '') + '">';
+            html += '<a href="#" data-page="' + (catalogCurrentPage - 1) + '">&laquo;</a>';
+            html += '</li>';
+
+            for (var page = 1; page <= totalPages; page++) {
+                html += '<li class="' + (page === catalogCurrentPage ? 'active' : '') + '">';
+                html += '<a href="#" data-page="' + page + '">' + page + '</a>';
+                html += '</li>';
+            }
+
+            html += '<li class="' + (catalogCurrentPage === totalPages ? 'disabled' : '') + '">';
+            html += '<a href="#" data-page="' + (catalogCurrentPage + 1) + '">&raquo;</a>';
+            html += '</li>';
+            html += '</ul>';
+
+            paginationContainer.innerHTML = html;
+            paginationContainer.style.display = 'block';
+        }
+
+        function filterCatalog(resetPage) {
+            var keyword = (document.getElementById('item-search-input').value || '').toLowerCase().trim();
+            var rows = document.querySelectorAll('#catalog-list .item-list-row');
+            var matchedRows = [];
+
+            if (resetPage) {
+                catalogCurrentPage = 1;
+            }
+
+            for (var i = 0; i < rows.length; i++) {
+                var row = rows[i];
+                var itemName = row.getAttribute('data-name') || '';
+                var isMatch = keyword === '' || itemName.indexOf(keyword) !== -1;
+
+                if (isMatch) {
+                    matchedRows.push(row);
+                } else {
+                    row.style.display = 'none';
                 }
-            });
+            }
+
+            var totalPages = Math.ceil(matchedRows.length / catalogItemsPerPage);
+
+            if (matchedRows.length > 0 && catalogCurrentPage > totalPages) {
+                catalogCurrentPage = totalPages;
+            }
+
+            var startIndex = (catalogCurrentPage - 1) * catalogItemsPerPage;
+            var endIndex = startIndex + catalogItemsPerPage;
+
+            for (var j = 0; j < matchedRows.length; j++) {
+                if (j >= startIndex && j < endIndex) {
+                    matchedRows[j].style.display = 'flex';
+                } else {
+                    matchedRows[j].style.display = 'none';
+                }
+            }
+
+            var noSearchResultMsg = document.getElementById('no-search-result-msg');
+            var emptyStockMsg = document.getElementById('empty-stock-msg');
+
+            if (emptyStockMsg) {
+                return;
+            }
+
+            if (matchedRows.length === 0) {
+                noSearchResultMsg.style.display = 'block';
+            } else {
+                noSearchResultMsg.style.display = 'none';
+            }
+
+            renderCatalogPagination(totalPages);
+        }
+
+        document.getElementById('item-search-input').addEventListener('input', function() {
+            filterCatalog(true);
         });
+
+        document.getElementById('item-search-btn').addEventListener('click', function() {
+            filterCatalog(true);
+        });
+
+        document.getElementById('catalog-pagination').addEventListener('click', function(event) {
+            if (!event.target || event.target.tagName !== 'A') {
+                return;
+            }
+
+            event.preventDefault();
+
+            var nextPage = parseInt(event.target.getAttribute('data-page'), 10);
+
+            if (isNaN(nextPage) || nextPage < 1 || nextPage === catalogCurrentPage) {
+                return;
+            }
+
+            catalogCurrentPage = nextPage;
+            filterCatalog(false);
+        });
+
+        filterCatalog(true);
     </script>
 @endsection
