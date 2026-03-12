@@ -5,14 +5,16 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
-        <h2>DAFTAR PERMINTAAN BARANG</h2>
+        <h2 style="font-family: 'Roboto Mono'; font-weight: bold; border-bottom: 3px solid #333; padding-bottom: 10px;">
+            DAFTAR PERMINTAAN BARANG
+        </h2>
 
         <div class="panel panel-industrial">
             <div class="panel-body">
 
-                <table class="table table-bordered table-hover table-dark-head">
+                <table class="table table-bordered table-hover">
                     <thead>
-                        <tr>
+                        <tr style="background: #222; color: #fff;">
                             <th>TANGGAL</th>
                             <th>KODE TRX</th>
                             <th>USER / DEPT</th>
@@ -33,7 +35,7 @@
 
                         <tr>
                             <td style="vertical-align: middle;">{{ $firstItem->created_at->format('d M Y') }}</td>
-                            <td style="font-weight:700;">
+                            <td style="font-family:'Roboto Mono'; font-weight:bold; vertical-align: middle;">
                                 {{ $code }}
                             </td>
                             <td style="vertical-align: middle;">
@@ -41,7 +43,7 @@
                                 <small class="text-muted">{{ $firstItem->user->department }}</small>
                             </td>
                             <td style="vertical-align: middle;">
-                                <span class="badge">{{ $group->count() }} Jenis</span>
+                                <span class="badge" style="background:#555; border-radius:0;">{{ $group->count() }} Jenis</span>
                                 <small class="text-muted">(Total {{ $totalQty }} pcs)</small>
                             </td>
                             <td class="text-center" style="vertical-align: middle;">
@@ -76,13 +78,13 @@ $firstItem = $group->first();
 $modalID = md5($code);
 @endphp
 
-<div id="modal-{{ $modalID }}" class="modal fade modal-industrial" role="dialog">
+<div id="modal-{{ $modalID }}" class="modal fade" role="dialog">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content">
+        <div class="modal-content" style="border-radius: 0; border: 3px solid #333;">
 
-            <div class="modal-header">
+            <div class="modal-header" style="background: #222; color: #fff;">
                 <button type="button" class="close" data-dismiss="modal" style="color:#fff;">&times;</button>
-                <h4 class="modal-title">
+                <h4 class="modal-title" style="font-family: 'Roboto Mono'">
                     DETAIL: {{ $code }} <br>
                     <small style="color: #ccc;">User: {{ $firstItem->user->name }} ({{ $firstItem->user->department }})</small>
                 </h4>
@@ -90,7 +92,7 @@ $modalID = md5($code);
 
             <div class="modal-body" style="padding: 0;">
                 <table class="table table-striped table-bordered" style="margin-bottom: 0;">
-                    <thead>
+                    <thead style="background: #eee;">
                         <tr>
                             <th>NAMA BARANG</th>
                             <th class="text-center">QTY MINTA</th>
@@ -166,23 +168,23 @@ $modalID = md5($code);
 </div>
 @endforeach
 
-<div id="modalConfirm" class="modal fade modal-industrial" role="dialog" style="z-index: 1600;">
+<div id="modalConfirm" class="modal fade" role="dialog" style="z-index: 1600;">
     <div class="modal-dialog modal-sm" style="margin-top: 15%;">
-        <div class="modal-content" style="border: 2px solid #d88a14;">
+        <div class="modal-content" style="border-radius: 0; border: 4px solid #f39c12; box-shadow: 0px 0px 20px rgba(0,0,0,0.5);">
 
-            <div class="modal-header" style="color: #ffd59b; border-bottom: 1px solid #d88a14;">
-                <h4 class="modal-title">
+            <div class="modal-header" style="background: #222; color: #f39c12; border-bottom: 2px solid #f39c12;">
+                <h4 class="modal-title" style="font-family: 'Roboto Mono'; font-weight: bold;">
                     <i class="glyphicon glyphicon-alert"></i> KONFIRMASI
                 </h4>
             </div>
 
             <div class="modal-body" style="background: #fff; color: #333;">
                 <p style="font-size: 16px;">Yakin setujui <b>SEMUA</b> barang untuk:</p>
-                <h4 id="confirmCodeDisplay" style="font-weight: 700; background: #eee; padding: 5px; text-align: center;">-</h4>
+                <h4 id="confirmCodeDisplay" style="font-family: 'Roboto Mono'; font-weight: bold; background: #eee; padding: 5px; text-align: center;">-</h4>
                 <p class="text-danger" style="margin-top: 10px;"><small>*Stok akan berkurang otomatis.</small></p>
             </div>
 
-            <div class="modal-footer">
+            <div class="modal-footer" style="background: #222; border-top: 2px solid #f39c12;">
                 <button type="button" class="btn btn-default btn-industrial pull-left" data-dismiss="modal" style="color: #fff; border-color: #fff; background: transparent;">BATAL</button>
                 <button type="button" class="btn btn-warning btn-industrial" id="btnExecuteApprove" style="background: #f39c12; color: #000;">YA, EKSEKUSI</button>
             </div>

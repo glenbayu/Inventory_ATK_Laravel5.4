@@ -27,22 +27,22 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Departemen</label>
-                                <select name="department" class="form-control" required>
-                                    <option value="">-- Pilih Departemen --</option>
-                                    @foreach($departments as $department)
-                                        <option value="{{ $department }}" {{ old('department') == $department ? 'selected' : '' }}>
-                                            {{ $department }}
-                                        </option>
-                                    @endforeach
+                                <select name="department" class="form-control">
+                                    <option value="Assy">Assy</option>
+                                    <option value="Mach">Mach</option>
+                                    <option value="PPC">PPC</option>
+                                    <option value="Finance">Finance</option>
+                                    <option value="HRGA">HRGA</option>
+                                    <option value="QC">QC</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Role / Jabatan</label>
-                                <select name="role" class="form-control" required>
-                                    <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>USER (Staff)</option>
-                                    <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>ADMIN (Superuser)</option>
+                                <select name="role" class="form-control">
+                                    <option value="user">USER (Staff)</option>
+                                    <option value="admin">ADMIN (Superuser)</option>
                                 </select>
                             </div>
                         </div>

@@ -3,45 +3,19 @@
 @section('title', 'Dashboard User')
 
 @section('content')
-<style>
-    .user-hero {
-        margin-bottom: 24px;
-        border-bottom: 2px solid #d8dee4;
-        padding-bottom: 14px;
-    }
 
-    .user-hero-name {
-        margin: 0 0 10px;
-        font-weight: 700;
-        color: #1f2933;
-        letter-spacing: 0.3px;
-    }
-
-    .user-dept-label {
-        border-radius: 3px;
-        font-size: 11px;
-        background: #44515d;
-        padding: 7px 10px;
-        letter-spacing: 0.25px;
-    }
-
-    .user-cta {
-        box-shadow: none;
-    }
-</style>
-
-<div class="row user-hero">
+<div class="row" style="margin-bottom: 30px; border-bottom: 4px solid #333; padding-bottom: 20px;">
     <div class="col-md-8">
-        <h2 class="user-hero-name">
+        <h2 style="font-family: 'Roboto Mono'; font-weight: bold; margin: 0 0 15px 0; color: #222;">
             HALO, {{ strtoupper(Auth::user()->name) }}
         </h2>
-        <span class="label label-default user-dept-label">
+        <span class="label label-default" style="border-radius: 0; font-size: 12px; background: #555; padding: 8px 12px;">
             DEPT: {{ strtoupper(Auth::user()->department) }}
         </span>
     </div>
 
-    <div class="col-md-4 text-right">
-        <a href="{{ route('user.request.create') }}" class="btn btn-warning btn-lg btn-industrial user-cta">
+    <div class="col-md-4 text-right" style="padding-top: 5px;">
+        <a href="{{ route('user.request.create') }}" class="btn btn-warning btn-lg btn-industrial" style="background-color: #f39c12; color: #000; box-shadow: 5px 5px 0px #333;">
             <i class="glyphicon glyphicon-plus"></i> BUAT PERMINTAAN BARU
         </a>
     </div>
@@ -76,14 +50,14 @@
             </table>
         </div>
 
-        <div class="panel panel-industrial" style="border-top-color: #b4382a;">
-            <div class="panel-heading-industrial" style="background: #f6e9e7; color: #7d241b;">
+        <div class="panel panel-industrial" style="border-color: #c0392b;">
+            <div class="panel-heading-industrial" style="background: #c0392b; color: #fff; border-bottom: 2px solid #000;">
                 <i class="glyphicon glyphicon-alert"></i> STOK MENIPIS
             </div>
             <ul class="list-group">
                 @forelse($criticalItems as $crit)
-                <li class="list-group-item" style="padding: 10px;">
-                    <span class="badge pull-right" style="background:#b4382a;">{{ $crit->stock }}</span>
+                <li class="list-group-item" style="border-radius:0; padding: 10px;">
+                    <span class="badge pull-right" style="background:#c0392b; border-radius:0">{{ $crit->stock }}</span>
                     <b>{{ $crit->name }}</b>
                 </li>
                 @empty
@@ -95,12 +69,12 @@
 
     <div class="col-md-8">
         <div class="panel panel-industrial" style="min-height: 400px;">
-            <div class="panel-heading-industrial">
+            <div class="panel-heading-industrial" style="background: #222; border-bottom: 4px solid #f39c12;">
                 <i class="glyphicon glyphicon-time"></i> RIWAYAT PERMINTAAN SAYA
             </div>
             <div class="panel-body" style="padding: 0;">
                 <table class="table table-hover table-striped mb-0">
-                    <thead>
+                    <thead style="background: #ddd;">
                         <tr>
                             <th>TANGGAL</th>
                             <th>KODE TRX</th>
@@ -117,7 +91,7 @@
                         @endphp
                         <tr>
                             <td style="vertical-align: middle;">{{ $first->created_at->format('d/m/Y') }}</td>
-                            <td style="font-size:12px;">
+                            <td style="font-family:'Roboto Mono'; font-size:12px; vertical-align: middle;">
                                 {{ $code }}
                             </td>
                             <td style="vertical-align: middle;">
@@ -125,9 +99,9 @@
                             </td>
                             <td class="text-center" style="vertical-align: middle;">
                                 @if($group->contains('status', 'pending'))
-                                <span class="label label-warning" style="padding: 5px;">PROSES</span>
+                                <span class="label label-warning" style="border-radius:0; padding: 5px;">PROSES</span>
                                 @else
-                                <span class="label label-success" style="padding: 5px;">SELESAI</span>
+                                <span class="label label-success" style="border-radius:0; padding: 5px;">SELESAI</span>
                                 @endif
                             </td>
                             <td class="text-center" style="vertical-align: middle;">
@@ -139,7 +113,7 @@
                         @empty
                         <tr>
                             <td colspan="5" class="text-center" style="padding: 50px;">
-                                <h4 class="text-muted">BELUM ADA DATA</h4>
+                                <h4 class="text-muted" style="font-family: 'Roboto Mono'">BELUM ADA DATA</h4>
                                 <p>Silakan buat permintaan barang baru.</p>
                             </td>
                         </tr>
@@ -157,14 +131,14 @@ $modalID = md5($code);
 @endphp
 <div id="modal-{{ $modalID }}" class="modal fade" role="dialog">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
+        <div class="modal-content" style="border-radius:0; border:3px solid #333;">
+            <div class="modal-header" style="background:#222; color:#fff;">
                 <button type="button" class="close" data-dismiss="modal" style="color:#fff">&times;</button>
-                <h4 class="modal-title">DETAIL: {{ $code }}</h4>
+                <h4 class="modal-title" style="font-family:'Roboto Mono'">DETAIL: {{ $code }}</h4>
             </div>
             <div class="modal-body" style="padding: 0;">
                 <table class="table table-bordered table-striped" style="margin-bottom: 0;">
-                    <thead>
+                    <thead style="background: #eee;">
                         <tr>
                             <th>Barang</th>
                             <th class="text-center">Qty</th>

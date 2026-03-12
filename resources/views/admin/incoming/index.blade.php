@@ -5,7 +5,9 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
-        <h2>RIWAYAT BARANG MASUK (STOCK IN)</h2>
+        <h2 style="font-family: 'Roboto Mono'; font-weight: bold; border-bottom: 3px solid #333; padding-bottom: 10px;">
+            RIWAYAT BARANG MASUK (STOCK IN)
+        </h2>
 
         <div class="panel panel-industrial">
             <div class="panel-heading-industrial">
@@ -14,7 +16,7 @@
             <div class="panel-body">
                 <table class="table table-striped table-hover">
                     <thead>
-                        <tr>
+                        <tr style="background: #222; color: #fff;">
                             <th>TANGGAL & JAM</th>
                             <th>NAMA BARANG</th>
                             <th>DIINPUT OLEH</th>
@@ -24,7 +26,7 @@
                     <tbody>
                         @forelse($stocks as $history)
                         <tr>
-                            <td>
+                            <td style="font-family:'Roboto Mono'">
                                 {{ $history->created_at->format('d M Y') }} 
                                 <small class="text-muted">{{ $history->created_at->format('H:i') }}</small>
                             </td>

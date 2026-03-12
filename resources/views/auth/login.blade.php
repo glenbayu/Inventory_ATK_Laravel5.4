@@ -6,10 +6,10 @@
     <title>Login - Inventory System</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
-
+    
     <style>
         body {
-            background-color: #ecf0f5;
+            background-color: #ecf0f5; /* Abu muda (sama kayak dashboard) */
             font-family: 'Open Sans', sans-serif;
             height: 100vh;
             display: flex;
@@ -25,9 +25,9 @@
 
         .panel-login {
             background: #fff;
-            border: 1px solid #d8dee4;
-            border-radius: 6px;
-            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+            border: none;
+            border-radius: 8px; /* Sudut tumpul */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); /* Shadow halus */
             padding: 30px;
         }
 
@@ -48,7 +48,7 @@
 
         .login-subtitle {
             font-size: 12px;
-            color: #d88a14;
+            color: #f39c12; /* Oranye */
             font-weight: 700;
             letter-spacing: 2px;
             margin-top: 5px;
@@ -65,9 +65,8 @@
         }
 
         .form-control:focus {
-            border-color: #d88a14;
+            border-color: #f39c12;
             background: #fff;
-            box-shadow: 0 0 0 2px rgba(216, 138, 20, 0.12);
         }
 
         .input-group-addon {
@@ -78,22 +77,23 @@
         }
 
         .btn-login {
-            background-color: #d88a14;
+            background-color: #f39c12;
             color: #fff;
             font-weight: bold;
             height: 45px;
             border-radius: 4px;
             font-size: 16px;
-            transition: 0.2s;
+            transition: 0.3s;
             border: none;
             width: 100%;
             margin-top: 20px;
         }
 
         .btn-login:hover {
-            background-color: #bf7810;
+            background-color: #e67e22;
             color: #fff;
-            box-shadow: 0 2px 8px rgba(191, 120, 16, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.3);
         }
 
         .text-footer {
@@ -134,7 +134,7 @@
                     <label class="text-muted" style="font-size:12px; font-weight:600;">PASSWORD</label>
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                        <input type="password" name="password" class="form-control" placeholder="********" required>
+                        <input type="password" name="password" class="form-control" placeholder="••••••••" required>
                     </div>
                 </div>
 

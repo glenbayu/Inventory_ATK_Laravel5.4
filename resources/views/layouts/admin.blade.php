@@ -13,313 +13,170 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
 
     <style>
-        :root {
-            --bg: #eff2f5;
-            --surface: #ffffff;
-            --surface-soft: #f8fafc;
-            --ink: #1f2933;
-            --ink-soft: #5b6874;
-            --line: #d8dee4;
-            --sidebar: #1d252c;
-            --sidebar-soft: #27323b;
-            --accent: #d88a14;
-            --danger: #b4382a;
-            --success: #2b8a57;
-            --radius: 6px;
-        }
-
+        /* 1. LAYOUT UTAMA */
         body {
-            background-color: var(--bg);
+            background-color: #ecf0f5; /* Abu muda */
             font-family: 'Open Sans', sans-serif;
-            color: var(--ink);
-            line-height: 1.45;
+            color: #333;
         }
 
+        /* 2. SIDEBAR */
         .sidebar {
-            background: var(--sidebar);
+            background: #222d32; /* Hitam Kebiruan */
             color: #fff;
             min-height: 100vh;
             position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
+            left: 0; top: 0; bottom: 0;
             width: 16.66%;
             z-index: 1000;
-            border-right: 1px solid #11181d;
+            padding-top: 0;
         }
 
+        /* === PERUBAHAN DI SINI: HEADER SIDEBAR TRANSPARAN & ELEGAN === */
         .sidebar-header {
-            padding: 24px 16px;
+            background-color: transparent; /* Tidak ada kotak oranye lagi */
+            padding: 25px 15px;
             text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            margin-bottom: 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.1); /* Garis pemisah tipis */
+            margin-bottom: 20px;
         }
 
-        .brand-title {
-            font-size: 19px;
-            font-weight: 800;
-            letter-spacing: 0.7px;
-            color: #fff;
-        }
-
-        .brand-accent {
-            color: var(--accent);
-        }
-
-        .brand-subtitle {
-            font-size: 10px;
-            color: #8f9aa3;
-            margin-top: 6px;
-            letter-spacing: 1.4px;
-            font-weight: 700;
-        }
-
-        .menu-section {
-            padding: 14px 20px 8px;
-            font-size: 10px;
-            color: #80909d;
-            font-weight: 700;
-            letter-spacing: 1.2px;
-        }
-
+        /* LINK MENU SIDEBAR */
         .sidebar a {
-            color: #bac7d1;
+            color: #b8c7ce;
             display: block;
-            padding: 11px 20px;
+            padding: 12px 20px;
             text-decoration: none;
             font-weight: 600;
-            font-size: 13px;
+            font-size: 14px;
             border-left: 3px solid transparent;
-            transition: background-color 0.2s ease, color 0.2s ease;
+            transition: 0.3s;
         }
 
-        .sidebar a:hover,
-        .sidebar a.active {
-            background: #182026;
+        .sidebar a:hover, .sidebar a.active {
+            background: #1e282c;
             color: #fff;
-            border-left-color: var(--accent);
+            border-left: 3px solid #f39c12; /* Indikator Aktif */
         }
 
+        /* 3. KONTEN UTAMA */
         .main-content {
             margin-left: 16.66%;
-            padding: 26px;
+            padding: 30px;
             min-height: 100vh;
         }
 
+        /* 4. HEADER HALAMAN (Judul Halaman Tetap Oranye) */
         h2 {
-            color: var(--ink);
-            margin: 0 0 18px 0;
-            font-size: 20px;
-            font-weight: 700;
+            background-color: #f39c12;
+            color: #fff;
+            padding: 15px 20px;
+            margin: 0 0 25px 0;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             text-transform: uppercase;
-            letter-spacing: 0.4px;
-            border-bottom: 2px solid var(--line);
-            padding-bottom: 10px;
+            border: none;
         }
+        
+        h2 .btn {
+            margin-top: -5px;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.4);
+            color: #fff;
+        }
+        h2 .btn:hover { background: #fff; color: #f39c12; }
 
+        /* 5. PANEL & CARDS */
         .panel {
-            border: 1px solid var(--line);
-            border-radius: var(--radius);
-            background: var(--surface);
-            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
-            margin-bottom: 18px;
+            border: none; border-radius: 5px;
+            background: #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .panel-heading, .panel-heading-industrial {
+            background: #fff; color: #444;
+            font-weight: 700; padding: 15px 20px;
+            border-bottom: 1px solid #f4f4f4;
+            border-radius: 5px 5px 0 0;
+        }
+        .panel-body { padding: 20px; }
+
+        /* 6. TOMBOL & FORM */
+        .btn { border-radius: 3px; border: none; font-weight: 600; padding: 6px 12px; }
+        .btn-primary { background: #3c8dbc; }
+        .btn-success { background: #00a65a; }
+        .btn-danger { background: #dd4b39; }
+        .btn-warning { background: #f39c12; color: #fff; }
+        .form-control { border-radius: 3px; height: 34px; border: 1px solid #d2d6de; box-shadow: none; }
+        .form-control:focus { border-color: #f39c12; }
+
+        /* 7. WIDGET WARNA */
+        .panel-industrial { border-top: 3px solid #d2d6de; }
+        .panel-industrial:nth-child(1) { border-top-color: #00c0ef; }
+        .panel-industrial:nth-child(2) { border-top-color: #dd4b39; }
+        .panel-industrial:nth-child(3) { border-top-color: #00a65a; }
+        .panel-industrial:nth-child(4) { border-top-color: #f39c12; }
+        
+        /* Utility */
+        .badge { background: #dd4b39; border-radius: 4px; }
+        .text-muted { font-size: 12px; }
+
+        /* =========================================
+       MOBILE RESPONSIVE (TAMBAHAN PENTING)
+       ========================================= */
+    @media (max-width: 768px) {
+        /* 1. Sidebar berubah jadi Header di atas */
+        .sidebar {
+            position: relative; /* Gak nempel kiri lagi */
+            width: 100%;       /* Lebar penuh */
+            height: auto;
+            min-height: auto;
+            padding-bottom: 20px;
         }
 
-        .panel-heading,
-        .panel-heading-industrial {
-            background: var(--surface-soft);
-            color: var(--ink);
-            font-weight: 700;
-            padding: 12px 16px;
-            border-bottom: 1px solid var(--line);
-            border-radius: var(--radius) var(--radius) 0 0;
+        /* 2. Judul Sidebar dirapikan dikit */
+        .sidebar-header {
+            padding: 15px;
+            margin-bottom: 10px;
         }
 
-        .panel-body {
-            padding: 16px;
-        }
-
-        .panel-industrial {
-            border-top: 2px solid var(--accent);
-        }
-
-        .btn {
-            border-radius: 4px;
-            border: 1px solid transparent;
-            font-weight: 700;
-            letter-spacing: 0.15px;
-            transition: filter 0.2s ease;
-        }
-
-        .btn:hover {
-            filter: brightness(0.96);
-        }
-
-        .btn-primary {
-            background: #2f6ea2;
-            border-color: #2a5f8b;
-        }
-
-        .btn-success {
-            background: var(--success);
-            border-color: #25724a;
-        }
-
-        .btn-danger {
-            background: var(--danger);
-            border-color: #9d3024;
-        }
-
-        .btn-warning {
-            background: var(--accent);
-            border-color: #bf7810;
-            color: #fff;
-        }
-
-        .form-control {
-            border-radius: 4px;
-            height: 36px;
-            border: 1px solid var(--line);
-            box-shadow: none;
-        }
-
-        .form-control:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 2px rgba(216, 138, 20, 0.14);
-        }
-
-        .table > thead > tr > th {
-            background: #f3f6f8;
-            color: var(--ink);
-            border-bottom: 1px solid var(--line);
+        /* 3. Link Menu di HP jadi tombol-tombol kecil */
+        .sidebar a {
+            display: inline-block; /* Biar bisa sebelahan dikit */
+            width: 48%; /* 2 kolom per baris */
+            margin-bottom: 5px;
             font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.2px;
-        }
-
-        .table > tbody > tr > td {
-            vertical-align: middle;
-            border-top: 1px solid #e7edf2;
-        }
-
-        .table-dark-head > thead > tr > th {
-            background: #22303a;
-            color: #f4f7fa;
-        }
-
-        .page-actions {
-            margin-bottom: 14px;
-        }
-
-        .metric-card {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .metric-icon {
-            font-size: 34px;
-            color: #33424e;
-        }
-
-        .metric-label {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.4px;
-            color: #6d7a86;
-            font-weight: 700;
-        }
-
-        .metric-value {
-            font-size: 26px;
-            font-weight: 700;
-            color: #22303a;
-            font-family: 'Roboto Mono', monospace;
-            line-height: 1.15;
-        }
-
-        .modal-industrial .modal-content {
             border-radius: 4px;
-            border: 1px solid #2a3741;
+            background: #2c3b41;
+            margin-left: 1%;
+        }
+        
+        /* Tombol Logout full width di HP */
+        .sidebar a[href*="logout"] {
+            width: 98%;
         }
 
-        .modal-industrial .modal-header {
-            background: #22303a;
-            color: #fff;
-            border-bottom: 1px solid #1b252c;
+        /* 4. Konten Utama geser ke kiri (karena sidebar udah naik) */
+        .main-content {
+            margin-left: 0;
+            width: 100%;
+            padding: 15px;
         }
 
-        .modal-industrial .modal-header .close {
-            color: #fff;
-            opacity: 0.9;
+        /* 5. Font Judul Halaman dikecilin dikit biar muat */
+        h2 {
+            font-size: 16px;
+            margin-bottom: 15px;
         }
 
-        .label {
-            border-radius: 3px;
-            font-weight: 700;
+        /* 6. Widget Statistik jadi numpuk ke bawah (1 kolom) */
+        .col-md-3, .col-md-8, .col-md-4, .col-md-12 {
+            width: 100%;
+            margin-bottom: 15px;
         }
-
-        .badge {
-            border-radius: 3px;
-            background: #637281;
-        }
-
-        .text-muted {
-            color: var(--ink-soft);
-        }
-
-        @media (max-width: 768px) {
-            .sidebar {
-                position: relative;
-                width: 100%;
-                height: auto;
-                min-height: auto;
-                padding-bottom: 16px;
-            }
-
-            .sidebar-header {
-                padding: 14px;
-                margin-bottom: 8px;
-            }
-
-            .menu-section {
-                padding: 10px 14px 6px;
-            }
-
-            .sidebar a {
-                display: inline-block;
-                width: 48%;
-                margin-bottom: 6px;
-                font-size: 12px;
-                border-radius: 4px;
-                background: var(--sidebar-soft);
-                margin-left: 1%;
-                border-left: none;
-            }
-
-            .sidebar a[href*="logout"] {
-                width: 98%;
-            }
-
-            .main-content {
-                margin-left: 0;
-                width: 100%;
-                padding: 14px;
-            }
-
-            h2 {
-                font-size: 16px;
-                margin-bottom: 14px;
-            }
-
-            .col-md-3,
-            .col-md-8,
-            .col-md-4,
-            .col-md-12 {
-                width: 100%;
-                margin-bottom: 12px;
-            }
-        }
+    }
     </style>
 </head>
 
@@ -331,10 +188,10 @@
             <div class="col-md-2 sidebar">
                 
                 <div class="sidebar-header">
-                    <div class="brand-title">
-                        INVENTORY <span class="brand-accent">SYSTEM AGI</span>
+                    <div style="font-size: 20px; font-weight: 800; letter-spacing: 1px; color: #fff;">
+                        INVENTORY <span style="color: #f39c12;">SYSTEM AGI</span>
                     </div>
-                    <div class="brand-subtitle">
+                    <div style="font-size: 10px; color: #6c7b88; margin-top: 5px; letter-spacing: 2px; font-weight: 600;">
                         VERSION 1.0
                     </div>
                 </div>
@@ -359,7 +216,7 @@
                     <i class="glyphicon glyphicon-user" style="margin-right: 10px;"></i> Manajemen User
                 </a>
 
-                <div class="menu-section">
+                <div style="padding: 15px 20px; font-size: 11px; color: #5b6e79; margin-top: 10px; font-weight: bold; letter-spacing: 1px;">
                     LAPORAN & LOG
                 </div>
 

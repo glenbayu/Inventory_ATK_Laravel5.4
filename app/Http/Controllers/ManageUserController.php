@@ -18,8 +18,7 @@ class ManageUserController extends Controller
     // 2. FORM TAMBAH USER
     public function create()
     {
-        $departments = User::departmentOptions();
-        return view('admin.users.create', compact('departments'));
+        return view('admin.users.create');
     }
 
     // 3. SIMPAN USER BARU
@@ -29,17 +28,17 @@ class ManageUserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
-            'role' => 'required|in:admin,user',
-            'department' => 'required|string|in:' . implode(',', User::departmentOptions()),
+            'role' => 'required|string',
+            'department' => 'required|string',
         ]);
 
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = bcrypt($request->password); // Enkripsi password
-        $user->role = $request->role;
-        $user->department = $request->department;
-        $user->save();
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password), // Enkripsi password
+            'role' => $request->role,
+            'department' => $request->department,
+        ]);
 
         return redirect()->route('admin.users.index')->with('success', 'User baru berhasil ditambahkan!');
     }
@@ -48,8 +47,7 @@ class ManageUserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        $departments = User::departmentOptions();
-        return view('admin.users.edit', compact('user', 'departments'));
+        return view('admin.users.edit', compact('user'));
     }
 
     // 5. UPDATE USER
@@ -60,22 +58,25 @@ class ManageUserController extends Controller
         $this->validate($request, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,'.$id, // Ignore email sendiri
-            'department' => 'required|string|in:' . implode(',', User::departmentOptions()),
-            'role' => 'required|in:admin,user',
+            'department' => 'required|string',
+            'role' => 'required|string',
             'password' => 'nullable|string|min:6', // Password boleh kosong kalau gak mau diganti
         ]);
 
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->department = $request->department;
-        $user->role = $request->role;
+        // Data dasar
+        $data = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'department' => $request->department,
+            'role' => $request->role,
+        ];
 
         // Cek apakah password diisi? Kalau iya, update password baru.
         if ($request->password) {
-            $user->password = bcrypt($request->password);
+            $data['password'] = bcrypt($request->password);
         }
 
-        $user->save();
+        $user->update($data);
 
         return redirect()->route('admin.users.index')->with('success', 'Data user berhasil diperbarui!');
     }

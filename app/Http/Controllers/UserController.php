@@ -36,13 +36,17 @@ class UserController extends Controller
     }
 
     // 2. HALAMAN FORM REQUEST
-    public function createRequest()
+    public function createRequest(Request $request)
     {
-        // Ambil semua barang yang stoknya > 0
-        $items = Item::where('stock', '>', 0)->get();
-        $departments = \App\User::departmentOptions();
-        // Kirim ke view
-        return view('user.request.create', compact('items', 'departments'));
+        $search = $request->search;
+        $items = Item::where('stock', '>', 0)
+        ->when($search, function ($query, $search) {
+            return $query->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($search) . '%']);
+        })
+        ->orderBy('name', 'asc')
+        ->paginate(6);
+
+        return view('user.request.create', compact('items'));
     }
 
     public function storeRequest(Request $request)
@@ -53,7 +57,7 @@ class UserController extends Controller
             'item_id.*' => 'exists:items,id',   // Pastikan barangnya ada
             'qty' => 'required|array',          
             'qty.*' => 'integer|min:1',         // Minimal minta 1
-            'department' => 'required|string|in:' . implode(',', \App\User::departmentOptions()),
+            'department' => 'required|string',  // Wajib pilih departemen
             'reason' => 'nullable|string'       // Alasan boleh kosong
         ]);
 

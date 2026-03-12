@@ -5,16 +5,18 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
-        <h2>RIWAYAT BARANG KELUAR (STOCK OUT)</h2>
+        <h2 style="font-family: 'Roboto Mono'; font-weight: bold; border-bottom: 3px solid #333; padding-bottom: 10px;">
+            RIWAYAT BARANG KELUAR (STOCK OUT)
+        </h2>
 
-        <div class="panel panel-industrial" style="border-top-color: #b4382a;">
-            <div class="panel-heading-industrial" style="background: #f6e9e7; color: #7d241b;">
+        <div class="panel panel-industrial" style="border-top-color: #c0392b;">
+            <div class="panel-heading-industrial" style="background: #c0392b; color: #fff;">
                 <i class="glyphicon glyphicon-export"></i> LOG BARANG KELUAR (APPROVED)
             </div>
             <div class="panel-body">
                 <table class="table table-striped table-hover">
                     <thead>
-                        <tr>
+                        <tr style="background: #222; color: #fff;">
                             <th>TANGGAL KELUAR</th>
                             <th>KODE TRANSAKSI</th>
                             <th>BARANG</th>
@@ -25,11 +27,11 @@
                     <tbody>
                         @forelse($transactions as $trx)
                         <tr>
-                            <td>
+                            <td style="font-family:'Roboto Mono'">
                                 {{ $trx->updated_at->format('d M Y') }} <br>
                                 <small class="text-muted">{{ $trx->updated_at->format('H:i') }}</small>
                             </td>
-                            <td style="font-weight:700; color: #b4382a;">
+                            <td style="font-family:'Roboto Mono'; font-weight:bold; color: #c0392b;">
                                 {{ $trx->transaction_code }}
                             </td>
                             <td>
