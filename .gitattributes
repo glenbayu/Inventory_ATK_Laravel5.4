@@ -2,4 +2,8 @@
 *.css linguist-vendored
 *.scss linguist-vendored
 *.js linguist-vendored
+*.ts text eol=lf
+*.tsx text eol=lf
+*.js text eol=lf
+*.jsx text eol=lf
 CHANGELOG.md export-ignore
