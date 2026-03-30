@@ -244,8 +244,12 @@
 
             <div id="catalog-list">
                 @forelse($items as $item)
-                    <div class="item-list-row" data-name="{{ strtolower($item->name) }}"
-                        onclick="addToCart({{ $item->id }}, '{{ $item->name }}', '{{ $item->unit }}', {{ $item->stock }})">
+                    <div class="item-list-row js-add-to-cart"
+                        data-name="{{ strtolower($item->name) }}"
+                        data-item-id="{{ $item->id }}"
+                        data-item-name="{{ e($item->name) }}"
+                        data-item-unit="{{ e($item->unit) }}"
+                        data-item-stock="{{ $item->stock }}">
 
                         <div>
                             <div class="item-name-text">
@@ -618,6 +622,18 @@
         document.addEventListener('DOMContentLoaded', function () {
             restoreDraft();
             bindDraftEvents();
+
+            var itemRows = document.querySelectorAll('.js-add-to-cart');
+            itemRows.forEach(function (row) {
+                row.addEventListener('click', function () {
+                    addToCart(
+                        parseInt(row.getAttribute('data-item-id'), 10),
+                        row.getAttribute('data-item-name') || '',
+                        row.getAttribute('data-item-unit') || '',
+                        parseInt(row.getAttribute('data-item-stock'), 10) || 1
+                    );
+                });
+            });
 
             var searchInput = document.querySelector('input[name="search"]');
             if (searchInput) {
